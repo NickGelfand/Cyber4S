@@ -52,13 +52,13 @@ class Piece {
       relativeMoves = this.getBishopMove();
     }
     else if (this.type == 'knight') {
-      console.log("knight")
+      relativeMoves = this.getKnightMove();
     }
     else if (this.type == 'king') {
       relativeMoves = this.getKingMove();
     }
     else if (this.type == 'queen') {
-      console.log("queen")
+      relativeMoves = this.getQueenMove();
     }
 
 
@@ -90,9 +90,9 @@ class Piece {
         result.push([-i, 0]);
       }
     }
-    if (this.first_move == false) {
-      result.pop()
-    }
+    // if (this.first_move == false) {
+    //   result.pop()
+    // }
     return result;
   }
 
@@ -117,9 +117,6 @@ class Piece {
       result.push(i - 1, i - 1);
       result.push(i - 1, i + 1);
     }
-
-
-    console.log(result)
     return result;
   }
   getKingMove() {
@@ -129,14 +126,62 @@ class Piece {
         if (!(i == 0 && j == 0)) {
           result.push([i, j])
         }
-
       }
     }
-
     return result;
   }
+  getKnightMove()
+  {
+    let result = [];
+    for(let i = 1;i<2;i++)
+    {
+      result.push([i+1,i]) //forword right
+      result.push([i+1,-i]) //forword left
+      result.push([i,i+1]) //left forwrd
+      result.push([i,-(i+1)]) // right forword
 
-}
+      result.push([-(i+1),i]) //black forword right 
+      result.push([-(i+1),-i]) //black forwrd left
+      result.push([-(i),i+1]) //black left forwrd
+      result.push([-(i),-(i+1)]) //black right forword
+    }
+    //back step after players will move i will check if it needed 
+  //   for(let i=2;i<1;i--)
+  //   {
+  //     result.push([i+1,i]) //black backword right
+  //     result.push([i+1,-i]) //black backword  left
+  //     result.push([i,i+1]) //black left forwrd
+  //     result.push([i,-(i+1)]) //black  right forword
+
+  //     result.push([-(i+1),i]) //backword right
+  //     result.push([-(i+1),-i]) //backword  left
+  //     result.push([-(i),i+1]) //left forwrd
+  //     result.push([-(i),-(i+1)]) // right forword
+  //   }
+    return result
+  }
+
+  getQueenMove()
+  {
+    let result = [];
+    for (let i = 0; i < BOARD_SIZE; i++) {
+      result.push([i + 1, i + 1]);
+      result.push([-(i + 1), i + 1]);
+      result.push([(i + 1), -(i + 1)]);
+      result.push([-(i + 1), -(i + 1)]);
+      result.push(i - 1, i - 1);
+      result.push(i - 1, i + 1);
+    }
+    for (let i = 1; i < BOARD_SIZE; i++) {
+      result.push([i, 0]);
+      result.push([-i, 0]);
+      result.push([0, i]);
+      result.push([0, -i]);
+    }
+    return result
+  }
+
+ }
 
 
 function addImage(cell, player, name) {
