@@ -50,9 +50,9 @@ class Piece {
       }
 
     }
+    
     else if (this.type == 'rook') {
-      relativeMoves = this.getRookMove()
-
+      relativeMoves = this.getRookMove();
     }
     else if (this.type == 'bishop') {
       relativeMoves = this.getBishopMove();
@@ -151,25 +151,13 @@ class Piece {
       result.push([-(i),i+1]) //black left forwrd
       result.push([-(i),-(i+1)]) //black right forword
     }
-    //back step after players will move i will check if it needed 
-  //   for(let i=2;i<1;i--)
-  //   {
-  //     result.push([i+1,i]) //black backword right
-  //     result.push([i+1,-i]) //black backword  left
-  //     result.push([i,i+1]) //black left forwrd
-  //     result.push([i,-(i+1)]) //black  right forword
-
-  //     result.push([-(i+1),i]) //backword right
-  //     result.push([-(i+1),-i]) //backword  left
-  //     result.push([-(i),i+1]) //left forwrd
-  //     result.push([-(i),-(i+1)]) // right forword
-  //   }
     return result
   }
 
   getQueenMove()
   {
     let result = [];
+    
     for (let i = 0; i < BOARD_SIZE; i++) {
       result.push([i + 1, i + 1]);
       result.push([-(i + 1), i + 1]);
@@ -209,7 +197,7 @@ class Piece {
       table.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('posibleMove');
   }
 
-
+  //add color when cell clicked 
   if (selected_cell !== undefined) {
     selected_cell.classList.remove("active")
 
@@ -220,13 +208,12 @@ class Piece {
 
 }
 
-
+//table crate 
 function createChessBoard() {
-
   table = document.createElement('table');
   document.body.appendChild(table);
   for (let row = 0; row < BOARD_SIZE; row++) {
-    const rowElement = table.insertRow();
+    const rowElement = table.insertRow(); 
     for (let col = 0; col < BOARD_SIZE; col++) {
       const cell = rowElement.insertCell();
       cell.id = row.toString() + "_" + col.toString();
@@ -235,7 +222,7 @@ function createChessBoard() {
       } else {
         cell.className = 'dark-cell';
       }
-      cell.addEventListener('click', (event) => onCellClick(event, row, col));
+      cell.addEventListener('click', (event) => onCellClick(event, row, col));//send event and row and col of the cell 
     }
   }
 
@@ -245,7 +232,7 @@ function createChessBoard() {
   }
 }
 
-
+//str that add image to cell 
 function addImage(cell, player, name) {
   const image = document.createElement('img');
   image.src = 'images/' + player + '/' + name + '.png';
@@ -267,6 +254,8 @@ function getInitialBoard() {
   return result;
 }
 
+
+//add playrs at start of game 
 function addFirstRowPieces(result, row, player) {
   result.push(new Piece(row, 0, ROOK, player));
   result.push(new Piece(row, 1, KNIGHT, player));
