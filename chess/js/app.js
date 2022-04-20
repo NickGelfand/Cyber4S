@@ -7,6 +7,12 @@ let selected_img
 let boardData = []
 let table;
 
+const PAWN = 'pawn';
+const ROOK = 'rook';
+const KNIGHT = 'knight';
+const BISHOP = 'bishop';
+const KING = 'king';
+const QUEEN = 'queen';
 
 class BoardData {
 
@@ -184,11 +190,33 @@ class Piece {
  }
 
 
-function addImage(cell, player, name) {
-  const image = document.createElement('img');
-  image.src = 'images/' + player + '/' + name + '.png';
-  cell.appendChild(image);
+ function onCellClick(event, row, col) {
+  console.log('row', row);
+  console.log('col', col);
+  //clean the table
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      table.rows[i].cells[j].classList.remove('posibleMove');
+    }
+  }
 
+  //add pos move to the cells
+  const piece = boardData.getPiece(row, col);
+
+  if (piece !== undefined) {
+    let possibleMoves = boardData.getPiece(row, col).getPossibleMoves();
+    for (let possibleMove of possibleMoves)
+      table.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('posibleMove');
+  }
+
+
+  if (selected_cell !== undefined) {
+    selected_cell.classList.remove("active")
+
+  }
+
+  selected_cell = event.currentTarget
+  selected_cell.classList.add("active")
 
 }
 
@@ -217,96 +245,39 @@ function createChessBoard() {
   }
 }
 
+
+function addImage(cell, player, name) {
+  const image = document.createElement('img');
+  image.src = 'images/' + player + '/' + name + '.png';
+  cell.appendChild(image);
+}
+
 window.addEventListener('load', createChessBoard);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 function getInitialBoard() {
   let result = [];
-  //----------------------------------------------
-  //white
-  result.push(new Piece(1, 0, "pawn", WHITE_PLAYER));
-  result.push(new Piece(1, 1, "pawn", WHITE_PLAYER));
-  result.push(new Piece(1, 2, "pawn", WHITE_PLAYER));
-  result.push(new Piece(1, 3, "pawn", WHITE_PLAYER));
-  result.push(new Piece(1, 4, "pawn", WHITE_PLAYER));
-  result.push(new Piece(1, 5, "pawn", WHITE_PLAYER));
-  result.push(new Piece(1, 6, "pawn", WHITE_PLAYER));
-  result.push(new Piece(1, 7, "pawn", WHITE_PLAYER));
+  addFirstRowPieces(result, 0, WHITE_PLAYER);
+  addFirstRowPieces(result, 7, DARK_PLAYER);
 
-  //-----------------------------------------------
-  result.push(new Piece(0, 0, "rook", WHITE_PLAYER));
-  result.push(new Piece(0, 1, "knight", WHITE_PLAYER));
-  result.push(new Piece(0, 2, "bishop", WHITE_PLAYER));
-  result.push(new Piece(0, 3, "king", WHITE_PLAYER));
-  result.push(new Piece(0, 4, "queen", WHITE_PLAYER));
-  result.push(new Piece(0, 5, "bishop", WHITE_PLAYER));
-  result.push(new Piece(0, 6, "knight", WHITE_PLAYER));
-  result.push(new Piece(0, 7, "rook", WHITE_PLAYER));
-  //----------------------------------------------
-  //black
-  result.push(new Piece(6, 0, "pawn", DARK_PLAYER));
-  result.push(new Piece(6, 1, "pawn", DARK_PLAYER));
-  result.push(new Piece(6, 2, "pawn", DARK_PLAYER));
-  result.push(new Piece(6, 3, "pawn", DARK_PLAYER));
-  result.push(new Piece(6, 4, "pawn", DARK_PLAYER));
-  result.push(new Piece(6, 5, "pawn", DARK_PLAYER));
-  result.push(new Piece(6, 6, "pawn", DARK_PLAYER));
-  result.push(new Piece(6, 7, "pawn", DARK_PLAYER));
-  //----------------------------------------------
-  result.push(new Piece(7, 0, "rook", DARK_PLAYER));
-  result.push(new Piece(7, 1, "knight", DARK_PLAYER));
-  result.push(new Piece(7, 2, "bishop", DARK_PLAYER));
-  result.push(new Piece(7, 3, "king", DARK_PLAYER));
-  result.push(new Piece(7, 4, "queen", DARK_PLAYER));
-  result.push(new Piece(7, 5, "bishop", DARK_PLAYER));
-  result.push(new Piece(7, 6, "knight", DARK_PLAYER));
-  result.push(new Piece(7, 7, "rook", DARK_PLAYER));
-
-  return result
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    result.push(new Piece(1, i, PAWN, WHITE_PLAYER));
+    result.push(new Piece(6, i, PAWN, DARK_PLAYER));
+  }
+  return result;
 }
 
-function onCellClick(event, row, col) {
-  console.log('row', row);
-  console.log('col', col);
-  //clean the table from pos move
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      table.rows[i].cells[j].classList.remove('posibleMove');
-    }
-  }
-
-  //add pos move to the cells
-  const piece = boardData.getPiece(row, col);
-
-  if (piece !== undefined) {
-    let possibleMoves = boardData.getPiece(row, col).getPossibleMoves();
-    for (let possibleMove of possibleMoves)
-      table.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('posibleMove');
-  }
-
-
-  if (selected_cell !== undefined) {
-    selected_cell.classList.remove("active")
-
-  }
-
-  selected_cell = event.currentTarget
-  selected_cell.classList.add("active")
-
+function addFirstRowPieces(result, row, player) {
+  result.push(new Piece(row, 0, ROOK, player));
+  result.push(new Piece(row, 1, KNIGHT, player));
+  result.push(new Piece(row, 2, BISHOP, player));
+  result.push(new Piece(row, 3, KING, player));
+  result.push(new Piece(row, 4, QUEEN, player));
+  result.push(new Piece(row, 5, BISHOP, player));
+  result.push(new Piece(row, 6, KNIGHT, player));
+  result.push(new Piece(row, 7, ROOK, player));
 }
+
 
 
 
