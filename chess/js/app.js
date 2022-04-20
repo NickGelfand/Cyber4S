@@ -4,25 +4,27 @@ const DARK_PLAYER = 'dark';
 
 let selected_cell
 let selected_img
-let pieces = [];
-let temp_piece;
+let boardData = []
 let table;
 
 
-class BordData{
+class BoardData{
   
   constructor(pieces) {
-  this.pieces = pieces;
-
+    this.pieces = pieces;
   }
 
-  
   // Returns piece in row, col, or undefined if not exists.
   getPiece(row, col) {
-    
+    for (const piece of this.pieces) {
+      if (piece.row=== row && piece.col=== col) {
+        return piece;
+      }
+    }
   }
-  
 }
+
+
 class Piece {
   constructor(row, col, type, player) {
     this.row = row;
@@ -60,7 +62,7 @@ getPossibleMoves()
   }
   else if(this.type == 'king')
   {
-    console.log("king")
+    relativeMoves = this.getKingMove();
   }
   else if(this.type == 'queen')
   {
@@ -122,6 +124,22 @@ getPossibleMoves()
     console.log(result)
     return result;
   }
+  getKingMove()
+  {
+    let result = [];
+    for (let i = -1; i <= 1; i++) {
+      for(let j = -1; j<=1; j++)
+      {
+        if(!(i== 0 && j == 0))
+        {
+          result.push([i,j])
+        }
+        
+      }
+    }
+    
+    return result;
+  }
 
 }
 
@@ -136,6 +154,7 @@ function addImage(cell, player, name) {
 
 
 function createChessBoard() {
+ 
   table = document.createElement('table');
   document.body.appendChild(table);
   for (let row = 0; row < BOARD_SIZE; row++) {
@@ -152,15 +171,13 @@ function createChessBoard() {
     }
   }
 
-  pieces = getInitialBoard();
-  
-  for (let piece of pieces) {
+  boardData = new BoardData(getInitialBoard());
+  for (let piece of boardData.pieces) {
     addImage(table.rows[piece.row].cells[piece.col], piece.player, piece.type);
   }
 }
 
 window.addEventListener('load', createChessBoard);
-
 
 
 
@@ -218,26 +235,31 @@ function getInitialBoard()
   result.push(new Piece(7,5,"bishop",DARK_PLAYER));
   result.push(new Piece(7,6,"knight",DARK_PLAYER));
   result.push(new Piece(7,7,"rook",DARK_PLAYER));
+ 
   return result
 }
 
 function onCellClick(event, row, col)
 {
-  console.log(row);
-  console.log(col);
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    for (let j = 0; j < BOARD_SIZE; j++) {
+  console.log('row', row);
+  console.log('col', col);
+   //clean the table from pos move
+   for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
       table.rows[i].cells[j].classList.remove('posibleMove');
     }
   }
-  for (let piece of pieces) {
-    if (piece.row === row && piece.col === col) {
-      console.log(piece);
-      let possibleMoves = piece.getPossibleMoves();
+  
+//add pos move to the cells
+  const piece= boardData.getPiece (row, col);
+  
+    if (piece!== undefined) {
+      let possibleMoves = boardData.getPiece (row, col).getPossibleMoves();
       for (let possibleMove of possibleMoves)
       table.rows[possibleMove[0]].cells[possibleMove[1]].classList.add('posibleMove');
     }
-  }
+
+
   if(selected_cell !== undefined)
   {
     selected_cell.classList.remove("active")
