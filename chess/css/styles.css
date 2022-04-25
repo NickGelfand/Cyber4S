@@ -14,10 +14,10 @@ table {
   height: 45px;
 }
 
-.active{
+.selected{
   background: rgb(82, 153, 82);
 }
 
-.posibleMove{
+.possible-move{
   background: rgb(50, 132, 199);
 }
