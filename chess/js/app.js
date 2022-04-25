@@ -2,6 +2,8 @@ const BOARD_SIZE = 8;
 const WHITE_PLAYER = 'white';
 const BLACK_PLAYER = 'black';
 
+//saddsada
+
 const PAWN = 'pawn';
 const ROOK = 'rook';
 const KNIGHT = 'knight';
