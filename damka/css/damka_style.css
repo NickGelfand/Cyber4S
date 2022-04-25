@@ -1,0 +1,27 @@
+table 
+{
+    margin: auto;
+}
+  
+.light-cell {
+    background: rgb(211, 210, 210);
+    width: 45px;
+    height: 45px;
+}
+  
+.dark-cell
+ {
+    background: rgb(63, 63, 63);
+    width: 45px;
+    height: 45px;
+ }
+  
+.selected
+{
+    background: rgb(82, 153, 82);
+}
+  
+.possible-move
+{
+    background: rgb(50, 132, 199);
+}
