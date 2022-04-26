@@ -76,9 +76,6 @@ class Piece{
         }
         //kill move
 
-    
-        
-        
         return result;
 
     }
