@@ -8,10 +8,12 @@ class BoardData{
     // Create list of pieces (32 total)
     this.pieces = [];
 
-    for (let i = 0; i < BOARD_SIZE; i++) {
-      this.pieces.push(new Piece(0, i, PAWN, WHITE_PLAYER));
+    for (let i = 0; i < BOARD_SIZE; i=i+2) {
+      this.pieces.push(new Piece(0, i+1, PAWN, WHITE_PLAYER));
       this.pieces.push(new Piece(1, i, PAWN, WHITE_PLAYER));
-      this.pieces.push(new Piece(6, i, PAWN, BLACK_PLAYER));
+      this.pieces.push(new Piece(2, i+1, PAWN, WHITE_PLAYER));
+      this.pieces.push(new Piece(5, i, PAWN, BLACK_PLAYER));
+      this.pieces.push(new Piece(6, i+1, PAWN, BLACK_PLAYER));
       this.pieces.push(new Piece(7, i, PAWN, BLACK_PLAYER));
     }
   }
@@ -35,12 +37,19 @@ class BoardData{
     }
     removePiece(row, col) 
     {
+     
       for (let i = 0; i < this.pieces.length; i++) {
         const piece = this.pieces[i];
-        if (piece.row === row && piece.col === col) {
-           // Remove piece at index i
+        if (piece.row === row && piece.col === col   ) {
+          // Remove piece at index i
            this.pieces.splice(i, 1);
         }
+        
+        else if(piece.row === re_piece[0]  && piece.col === re_piece[1])
+        {
+          console.log(re_piece)
+          this.pieces.splice(i, 1); //check if there is pawn before eating and removeing
+        }
       }
-  }
+    }
 }

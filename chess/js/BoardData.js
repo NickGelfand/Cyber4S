@@ -30,6 +30,7 @@ class BoardData {
       if (piece.row === row && piece.col === col) {
         // Remove piece at index i
         this.pieces.splice(i, 1);
+        return piece;
       }
     }
   }
@@ -43,4 +44,3 @@ class BoardData {
     return piece !== undefined && piece.player === player;
   }
 }
-  
