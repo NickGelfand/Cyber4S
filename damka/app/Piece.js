@@ -58,16 +58,16 @@ class Piece{
         //colc the move after kill 
         position = [this.row + direction, this.col + direction];
         aftet_postin = [this.row+ direction +direction ,this.col + direction + direction ]
-        if (boardData.isPlayer(position[0], position[1], this.getOpponent()) && boardData.isEmpty(aftet_postin[0],aftet_postin[1]) && boardData.isPlayer(aftet_postin[0],aftet_postin[1])) {
+        if (boardData.isPlayer(position[0], position[1], this.getOpponent()) && boardData.isEmpty(aftet_postin[0],aftet_postin[1])) {
           re_piece = position; //global arr that remmber the opnnet pawn loction
          
           result.push(aftet_postin);
         }
         position = [this.row + direction, this.col - direction];
         aftet_postin = [this.row+ direction +direction ,this.col - direction - direction ]
-        if (boardData.isPlayer(position[0], position[1], this.getOpponent()) && boardData.isEmpty(aftet_postin[0],aftet_postin[1])) {
+        if (boardData.isPlayer(position[0], position[1], this.getOpponent()) && boardData.isEmpty(aftet_postin[0],aftet_postin[1]) && !boardData.isPlayer(aftet_postin[0],aftet_postin[1])) {
           re_piece = position;//global arr that remmber the opnnet pawn loction
-      
+
           result.push(aftet_postin);
         }
 

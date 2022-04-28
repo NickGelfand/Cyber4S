@@ -4,6 +4,7 @@ let selectedPiece;
 let game;
 let re_piece =[];
 
+
 const DAMKA_ID = 'damka-bord';
 const BOARD_SIZE = 8;
 const PAWN = 'pawn';

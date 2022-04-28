@@ -47,8 +47,10 @@ class BoardData{
         
         else if(piece.row === re_piece[0]  && piece.col === re_piece[1])
         {
-          console.log(re_piece)
+          console.log("removed " +  re_piece);
+          console.log(row+":"+col)
           this.pieces.splice(i, 1); //check if there is pawn before eating and removeing
+          re_piece = []; // clear the global int to not delate raminble data 
         }
       }
     }
